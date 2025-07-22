@@ -12,9 +12,9 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
 @Entity({
   name: '<%= h.inflection.transform(name, ['underscore']) %>',
 })
-export class <%= name %>Entity extends EntityRelationalHelper {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class <%= h.inflection.transform(name, ['camelize']) %>Entity extends EntityRelationalHelper {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @CreateDateColumn()
   createdAt: Date;

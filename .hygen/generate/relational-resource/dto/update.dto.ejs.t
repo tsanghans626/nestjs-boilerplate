@@ -5,6 +5,6 @@ to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize'
 // import { Allow } from 'class-validator';
 
 import { PartialType } from '@nestjs/swagger';
-import { Create<%= name %>Dto } from './create-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto';
+import { Create<%= h.inflection.transform(name, ['camelize']) %>Dto } from './create-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto';
 
-export class Update<%= name %>Dto extends PartialType(Create<%= name %>Dto) {}
+export class Update<%= h.inflection.transform(name, ['camelize']) %>Dto extends PartialType(Create<%= h.inflection.transform(name, ['camelize']) %>Dto) {}

@@ -4,27 +4,27 @@ to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize'
 import { DeepPartial } from '../../../utils/types/deep-partial.type';
 import { NullableType } from '../../../utils/types/nullable.type';
 import { IPaginationOptions } from '../../../utils/types/pagination-options';
-import { <%= name %> } from '../../domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>';
+import { <%= h.inflection.transform(name, ['camelize']) %> } from '../../domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>';
 
-export abstract class <%= name %>Repository {
+export abstract class <%= h.inflection.transform(name, ['camelize']) %>Repository {
   abstract create(
-    data: Omit<<%= name %>, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<<%= name %>>;
+    data: Omit<<%= h.inflection.transform(name, ['camelize']) %>, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<<%= h.inflection.transform(name, ['camelize']) %>>;
 
   abstract findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<<%= name %>[]>;
+  }): Promise<[<%= h.inflection.transform(name, ['camelize']) %>[], number]>;
 
-  abstract findById(id: <%= name %>['id']): Promise<NullableType<<%= name %>>>;
+  abstract findById(id: <%= h.inflection.transform(name, ['camelize']) %>['id']): Promise<NullableType<<%= h.inflection.transform(name, ['camelize']) %>>>;
 
-  abstract findByIds(ids: <%= name %>['id'][]): Promise<<%= name %>[]>;
+  abstract findByIds(ids: <%= h.inflection.transform(name, ['camelize']) %>['id'][]): Promise<<%= h.inflection.transform(name, ['camelize']) %>[]>;
 
   abstract update(
-    id: <%= name %>['id'],
-    payload: DeepPartial<<%= name %>>,
-  ): Promise<<%= name %> | null>;
+    id: <%= h.inflection.transform(name, ['camelize']) %>['id'],
+    payload: DeepPartial<<%= h.inflection.transform(name, ['camelize']) %>>,
+  ): Promise<<%= h.inflection.transform(name, ['camelize']) %> | null>;
 
-  abstract remove(id: <%= name %>['id']): Promise<void>;
+  abstract remove(id: <%= h.inflection.transform(name, ['camelize']) %>['id']): Promise<void>;
 }

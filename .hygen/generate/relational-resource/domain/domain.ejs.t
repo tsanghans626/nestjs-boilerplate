@@ -3,11 +3,13 @@ to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize'
 ---
 import { ApiProperty } from '@nestjs/swagger';
 
-export class <%= name %> {
+const idType = Number;
+
+export class <%= h.inflection.transform(name, ['camelize']) %> {
   @ApiProperty({
-    type: String,
+    type: idType,
   })
-  id: string;
+  id: number;
 
   @ApiProperty()
   createdAt: Date;

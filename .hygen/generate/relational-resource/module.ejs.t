@@ -5,17 +5,17 @@ import {
   // do not remove this comment
   Module,
 } from '@nestjs/common';
-import { <%= h.inflection.transform(name, ['pluralize']) %>Service } from './<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.service';
-import { <%= h.inflection.transform(name, ['pluralize']) %>Controller } from './<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.controller';
-import { Relational<%= name %>PersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
+import { <%= h.inflection.transform(name, ['camelize']) %>Service } from './<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.service';
+import { <%= h.inflection.transform(name, ['camelize']) %>Controller } from './<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>.controller';
+import { Relational<%= h.inflection.transform(name, ['camelize']) %>PersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
 
 @Module({
   imports: [
     // do not remove this comment
-    Relational<%= name %>PersistenceModule,
+    Relational<%= h.inflection.transform(name, ['camelize']) %>PersistenceModule,
   ],
-  controllers: [<%= h.inflection.transform(name, ['pluralize']) %>Controller],
-  providers: [<%= h.inflection.transform(name, ['pluralize']) %>Service],
-  exports: [<%= h.inflection.transform(name, ['pluralize']) %>Service, Relational<%= name %>PersistenceModule],
+  controllers: [<%= h.inflection.transform(name, ['camelize']) %>Controller],
+  providers: [<%= h.inflection.transform(name, ['camelize']) %>Service],
+  exports: [<%= h.inflection.transform(name, ['camelize']) %>Service, Relational<%= h.inflection.transform(name, ['camelize']) %>PersistenceModule],
 })
-export class <%= h.inflection.transform(name, ['pluralize']) %>Module {}
+export class <%= h.inflection.transform(name, ['camelize']) %>Module {}

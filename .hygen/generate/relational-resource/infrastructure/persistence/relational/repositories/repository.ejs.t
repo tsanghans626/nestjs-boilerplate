@@ -4,61 +4,61 @@ to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize'
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
-import { <%= name %>Entity } from '../entities/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.entity';
+import { <%= h.inflection.transform(name, ['camelize']) %>Entity } from '../entities/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
-import { <%= name %> } from '../../../../domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>';
-import { <%= name %>Repository } from '../../<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.repository';
-import { <%= name %>Mapper } from '../mappers/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.mapper';
+import { <%= h.inflection.transform(name, ['camelize']) %> } from '../../../../domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>';
+import { <%= h.inflection.transform(name, ['camelize']) %>Repository } from '../../<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.repository';
+import { <%= h.inflection.transform(name, ['camelize']) %>Mapper } from '../mappers/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 
 @Injectable()
-export class <%= name %>RelationalRepository implements <%= name %>Repository {
+export class <%= h.inflection.transform(name, ['camelize']) %>RelationalRepository implements <%= h.inflection.transform(name, ['camelize']) %>Repository {
   constructor(
-    @InjectRepository(<%= name %>Entity)
-    private readonly <%= h.inflection.camelize(name, true) %>Repository: Repository<<%= name %>Entity>,
+    @InjectRepository(<%= h.inflection.transform(name, ['camelize']) %>Entity)
+    private readonly <%= h.inflection.camelize(name, true) %>Repository: Repository<<%= h.inflection.transform(name, ['camelize']) %>Entity>,
   ) {}
 
-  async create(data: <%= name %>): Promise<<%= name %>> {
-    const persistenceModel = <%= name %>Mapper.toPersistence(data);
+  async create(data: <%= h.inflection.transform(name, ['camelize']) %>): Promise<<%= h.inflection.transform(name, ['camelize']) %>> {
+    const persistenceModel = <%= h.inflection.transform(name, ['camelize']) %>Mapper.toPersistence(data);
     const newEntity = await this.<%= h.inflection.camelize(name, true) %>Repository.save(
       this.<%= h.inflection.camelize(name, true) %>Repository.create(persistenceModel),
     );
-    return <%= name %>Mapper.toDomain(newEntity);
+    return <%= h.inflection.transform(name, ['camelize']) %>Mapper.toDomain(newEntity);
   }
 
   async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<<%= name %>[]> {
-    const entities = await this.<%= h.inflection.camelize(name, true) %>Repository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
+  }): Promise<[<%= h.inflection.transform(name, ['camelize']) %>[], number]> {
+    const [entities, total] = await this.<%= h.inflection.camelize(name, true) %>Repository.findAndCount({
+      skip: (paginationOptions.current - 1) * paginationOptions.size,
+      take: paginationOptions.size,
     });
 
-    return entities.map((entity) => <%= name %>Mapper.toDomain(entity));
+    return [entities.map((entity) => <%= h.inflection.transform(name, ['camelize']) %>Mapper.toDomain(entity)), total];
   }
 
-  async findById(id: <%= name %>['id']): Promise<NullableType<<%= name %>>> {
+  async findById(id: <%= h.inflection.transform(name, ['camelize']) %>['id']): Promise<NullableType<<%= h.inflection.transform(name, ['camelize']) %>>> {
     const entity = await this.<%= h.inflection.camelize(name, true) %>Repository.findOne({
       where: { id },
     });
 
-    return entity ? <%= name %>Mapper.toDomain(entity) : null;
+    return entity ? <%= h.inflection.transform(name, ['camelize']) %>Mapper.toDomain(entity) : null;
   }
 
-  async findByIds(ids: <%= name %>['id'][]): Promise<<%= name %>[]> {
+  async findByIds(ids: <%= h.inflection.transform(name, ['camelize']) %>['id'][]): Promise<<%= h.inflection.transform(name, ['camelize']) %>[]> {
     const entities = await this.<%= h.inflection.camelize(name, true) %>Repository.find({
       where: { id: In(ids) },
     });
 
-    return entities.map((entity) => <%= name %>Mapper.toDomain(entity));
+    return entities.map((entity) => <%= h.inflection.transform(name, ['camelize']) %>Mapper.toDomain(entity));
   }
 
   async update(
-    id: <%= name %>['id'],
-    payload: Partial<<%= name %>>,
-  ): Promise<<%= name %>> {
+    id: <%= h.inflection.transform(name, ['camelize']) %>['id'],
+    payload: Partial<<%= h.inflection.transform(name, ['camelize']) %>>,
+  ): Promise<<%= h.inflection.transform(name, ['camelize']) %>> {
     const entity = await this.<%= h.inflection.camelize(name, true) %>Repository.findOne({
       where: { id },
     });
@@ -68,18 +68,16 @@ export class <%= name %>RelationalRepository implements <%= name %>Repository {
     }
 
     const updatedEntity = await this.<%= h.inflection.camelize(name, true) %>Repository.save(
-      this.<%= h.inflection.camelize(name, true) %>Repository.create(
-        <%= name %>Mapper.toPersistence({
-          ...<%= name %>Mapper.toDomain(entity),
+        <%= h.inflection.transform(name, ['camelize']) %>Mapper.toPersistence({
+          ...<%= h.inflection.transform(name, ['camelize']) %>Mapper.toDomain(entity),
           ...payload,
         }),
-      ),
     );
 
-    return <%= name %>Mapper.toDomain(updatedEntity);
+    return <%= h.inflection.transform(name, ['camelize']) %>Mapper.toDomain(updatedEntity);
   }
 
-  async remove(id: <%= name %>['id']): Promise<void> {
+  async remove(id: <%= h.inflection.transform(name, ['camelize']) %>['id']): Promise<void> {
     await this.<%= h.inflection.camelize(name, true) %>Repository.delete(id);
   }
 }
