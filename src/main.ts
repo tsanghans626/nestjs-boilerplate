@@ -46,7 +46,7 @@ async function bootstrap() {
       required: false,
       name: process.env.APP_HEADER_LANGUAGE || 'x-custom-lang',
       schema: {
-        example: 'en',
+        example: 'zh',
       },
     })
     .build();

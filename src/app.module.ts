@@ -10,6 +10,7 @@ import fileConfig from './files/config/file.config';
 import facebookConfig from './auth-facebook/config/facebook.config';
 import googleConfig from './auth-google/config/google.config';
 import appleConfig from './auth-apple/config/apple.config';
+import mpwxConfig from './auth-mpwx/config/mpwx.config';
 import path from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -27,6 +28,7 @@ import { MailerModule } from './mailer/mailer.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './database/mongoose-config.service';
 import { DatabaseConfig } from './database/config/database-config.type';
+import { AuthMpwxModule } from './auth-mpwx/auth-mpwx.module';
 
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
@@ -55,6 +57,7 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
         facebookConfig,
         googleConfig,
         appleConfig,
+        mpwxConfig,
       ],
       envFilePath: ['.env'],
     }),
@@ -88,6 +91,7 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     AuthFacebookModule,
     AuthGoogleModule,
     AuthAppleModule,
+    AuthMpwxModule,
     SessionModule,
     MailModule,
     MailerModule,

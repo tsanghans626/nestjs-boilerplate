@@ -20,6 +20,12 @@ export class User {
 
   @ApiProperty({
     type: String,
+    example: 'john',
+  })
+  username?: string | null;
+
+  @ApiProperty({
+    type: String,
     example: 'john.doe@example.com',
   })
   @Expose({ groups: ['me', 'admin'] })
@@ -46,6 +52,12 @@ export class User {
     type: String,
     example: 'John',
   })
+  name?: string | null;
+
+  @ApiProperty({
+    type: String,
+    example: 'John',
+  })
   firstName: string | null;
 
   @ApiProperty({
@@ -53,6 +65,12 @@ export class User {
     example: 'Doe',
   })
   lastName: string | null;
+
+  @ApiProperty({
+    type: String,
+    example: 'https://xxx.png',
+  })
+  avatar?: string | null;
 
   @ApiProperty({
     type: () => FileType,
