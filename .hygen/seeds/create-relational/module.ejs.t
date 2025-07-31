@@ -3,12 +3,12 @@ to: src/database/seeds/relational/<%= h.inflection.transform(name, ['underscore'
 ---
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { <%= name %>Entity } from '../../../../<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/infrastructure/persistence/relational/entities/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.entity';
-import { <%= name %>SeedService } from './<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>-seed.service';
+import { <%= h.inflection.transform(name, ['camelize']) %>Entity } from '../../../../<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/infrastructure/persistence/relational/entities/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.entity';
+import { <%= h.inflection.transform(name, ['camelize']) %>SeedService } from './<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>-seed.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([<%= name %>Entity])],
-  providers: [<%= name %>SeedService],
-  exports: [<%= name %>SeedService],
+  imports: [TypeOrmModule.forFeature([<%= h.inflection.transform(name, ['camelize']) %>Entity])],
+  providers: [<%= h.inflection.transform(name, ['camelize']) %>SeedService],
+  exports: [<%= h.inflection.transform(name, ['camelize']) %>SeedService],
 })
-export class <%= name %>SeedModule {}
+export class <%= h.inflection.transform(name, ['camelize']) %>SeedModule {}
