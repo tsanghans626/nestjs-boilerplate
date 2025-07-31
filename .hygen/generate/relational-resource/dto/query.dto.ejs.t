@@ -1,9 +1,7 @@
 ---
 to: src/<%= h.inflection.transform(name, ['pluralize', 'underscore', 'dasherize']) %>/dto/query-<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>.dto.ts
 ---
-import { ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
-import { IsNumber, IsOptional } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IntersectionType } from '@nestjs/swagger';
 import { <%= h.inflection.transform(name, ['camelize']) %> } from '../domain/<%= h.inflection.transform(name, ['underscore', 'dasherize']) %>';
 import { BaseQueryDto } from '../../utils/dto/base-query.dto';
 
