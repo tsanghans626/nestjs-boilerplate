@@ -12,11 +12,18 @@ import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
 import { ResolvePromisesInterceptor } from './utils/serializer.interceptor';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { HttpLoggingInterceptor } from './interceptors/http-logging.interceptor';
+import { HttpLoggingService } from './interceptors/services/http-logging.service';
+import { SuccessResponseInterceptor } from './interceptors/success-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
+
+  // 设置 Winston 为全局 Logger
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   app.enableShutdownHooks();
   app.setGlobalPrefix(
@@ -33,7 +40,9 @@ async function bootstrap() {
     // ResolvePromisesInterceptor is used to resolve promises in responses because class-transformer can't do it
     // https://github.com/typestack/class-transformer/issues/549
     new ResolvePromisesInterceptor(),
+    new HttpLoggingInterceptor(app.get(HttpLoggingService)),
     new ClassSerializerInterceptor(app.get(Reflector)),
+    new SuccessResponseInterceptor(app.get(Reflector)),
   );
 
   const options = new DocumentBuilder()
