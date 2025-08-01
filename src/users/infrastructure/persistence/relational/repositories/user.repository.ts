@@ -4,11 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository, In } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
-import { FilterUserDto, SortUserDto } from '../../../../dto/query-user.dto';
+import { FilterUserDto } from '../../../../dto/query-user.dto';
 import { User } from '../../../../domain/user';
 import { UserRepository } from '../../user.repository';
 import { UserMapper } from '../mappers/user.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
+import { SortDto } from '../../../../../utils/dto/base-query.dto';
 
 @Injectable()
 export class UsersRelationalRepository implements UserRepository {
@@ -31,7 +32,7 @@ export class UsersRelationalRepository implements UserRepository {
     paginationOptions,
   }: {
     filterOptions?: FilterUserDto | null;
-    sortOptions?: SortUserDto[] | null;
+    sortOptions?: SortDto<User>[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]> {
     const where: FindOptionsWhere<UserEntity> = {};
@@ -42,8 +43,8 @@ export class UsersRelationalRepository implements UserRepository {
     }
 
     const entities = await this.usersRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
+      skip: (paginationOptions.current - 1) * paginationOptions.size,
+      take: paginationOptions.size,
       where: where,
       order: sortOptions?.reduce(
         (accumulator, sort) => ({

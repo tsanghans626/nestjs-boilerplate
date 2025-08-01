@@ -1,9 +1,10 @@
+import { SortDto } from '../../../utils/dto/base-query.dto';
 import { DeepPartial } from '../../../utils/types/deep-partial.type';
 import { NullableType } from '../../../utils/types/nullable.type';
 import { IPaginationOptions } from '../../../utils/types/pagination-options';
 import { User } from '../../domain/user';
 
-import { FilterUserDto, SortUserDto } from '../../dto/query-user.dto';
+import { FilterUserDto } from '../../dto/query-user.dto';
 
 export abstract class UserRepository {
   abstract create(
@@ -16,7 +17,7 @@ export abstract class UserRepository {
     paginationOptions,
   }: {
     filterOptions?: FilterUserDto | null;
-    sortOptions?: SortUserDto[] | null;
+    sortOptions?: SortDto<User>[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]>;
 

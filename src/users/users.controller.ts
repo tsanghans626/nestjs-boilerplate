@@ -70,10 +70,10 @@ export class UsersController {
   async findAll(
     @Query() query: QueryUserDto,
   ): Promise<InfinityPaginationResponseDto<User>> {
-    const page = query?.page ?? 1;
-    let limit = query?.limit ?? 10;
-    if (limit > 50) {
-      limit = 50;
+    const current = query?.current ?? 1;
+    let size = query?.size ?? 10;
+    if (size > 50) {
+      size = 50;
     }
 
     return infinityPagination(
@@ -81,11 +81,11 @@ export class UsersController {
         filterOptions: query?.filters,
         sortOptions: query?.sort,
         paginationOptions: {
-          page,
-          limit,
+          current,
+          size,
         },
       }),
-      { page, limit },
+      { current, size },
     );
   }
 

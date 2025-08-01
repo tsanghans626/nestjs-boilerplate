@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { NullableType } from '../utils/types/nullable.type';
-import { FilterUserDto, SortUserDto } from './dto/query-user.dto';
 import { UserRepository } from './infrastructure/persistence/user.repository';
 import { User } from './domain/user';
 import bcrypt from 'bcryptjs';
@@ -18,6 +17,8 @@ import { FileType } from '../files/domain/file';
 import { Role } from '../roles/domain/role';
 import { Status } from '../statuses/domain/status';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SortDto } from '../utils/dto/base-query.dto';
+import { FilterUserDto } from './dto/query-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -134,7 +135,7 @@ export class UsersService {
     paginationOptions,
   }: {
     filterOptions?: FilterUserDto | null;
-    sortOptions?: SortUserDto[] | null;
+    sortOptions?: SortDto<User>[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]> {
     return this.usersRepository.findManyWithPagination({

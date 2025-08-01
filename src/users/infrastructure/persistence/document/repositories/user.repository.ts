@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { NullableType } from '../../../../../utils/types/nullable.type';
-import { FilterUserDto, SortUserDto } from '../../../../dto/query-user.dto';
+import { FilterUserDto } from '../../../../dto/query-user.dto';
 import { User } from '../../../../domain/user';
 import { UserRepository } from '../../user.repository';
 import { UserSchemaClass } from '../entities/user.schema';
@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { UserMapper } from '../mappers/user.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
+import { SortDto } from '../../../../../utils/dto/base-query.dto';
 
 @Injectable()
 export class UsersDocumentRepository implements UserRepository {
@@ -30,7 +31,7 @@ export class UsersDocumentRepository implements UserRepository {
     paginationOptions,
   }: {
     filterOptions?: FilterUserDto | null;
-    sortOptions?: SortUserDto[] | null;
+    sortOptions?: SortDto<User>[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]> {
     const where: FilterQuery<UserSchemaClass> = {};
@@ -52,8 +53,8 @@ export class UsersDocumentRepository implements UserRepository {
           {},
         ),
       )
-      .skip((paginationOptions.page - 1) * paginationOptions.limit)
-      .limit(paginationOptions.limit);
+      .skip((paginationOptions.current - 1) * paginationOptions.size)
+      .limit(paginationOptions.size);
 
     return userObjects.map((userObject) => UserMapper.toDomain(userObject));
   }
